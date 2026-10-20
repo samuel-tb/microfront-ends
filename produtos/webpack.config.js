@@ -5,11 +5,15 @@ module.exports = withModuleFederationPlugin({
   name: 'produtos',
 
   exposes: {
-    './Component': './src\app\app.ts',
+    './Component': './src/app/app.ts',
   },
 
   shared: {
-    ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
+    ...shareAll({ 
+      singleton: true, 
+      strictVersion: true, 
+      requiredVersion: 'auto' 
+    }),
   },
 
 });
