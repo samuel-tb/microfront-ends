@@ -1,19 +1,35 @@
-const { shareAll, withModuleFederationPlugin } = require('@angular-architects/module-federation/webpack');
+const { shareAll } = require('@angular-architects/module-federation/webpack');
 
-module.exports = withModuleFederationPlugin({
+let ModuleFederationPlugin;
+try {
+  ModuleFederationPlugin = require('@angular-devkit/build-angular/node_modules/webpack').container.ModuleFederationPlugin;
+} catch (e) {
+  ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
+}
 
-  name: 'grafico',
-
-  exposes: {
-    './Component': './src/app/app.ts',
+module.exports = {
+  output: {
+    uniqueName: 'grafico',
+    publicPath: 'auto',
+    scriptType: 'text/javascript'
   },
-
-  shared: {
-    ...shareAll({ 
-      singleton: true, 
-      strictVersion: true, 
-      requiredVersion: 'auto' 
-    }),
+  optimization: {
+    runtimeChunk: false
   },
-
-});
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'grafico',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Component': './src/app/app.ts',
+      },
+      shared: {
+        ...shareAll({ 
+          singleton: true, 
+          strictVersion: true, 
+          requiredVersion: 'auto' 
+        })
+      }
+    })
+  ]
+};
