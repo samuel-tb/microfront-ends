@@ -23,6 +23,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       exposes: {
         './Component': './src/app/app.ts',
+        './Carrinho': './src/app/carrinho/carrinho.ts'
       },
       shared: {
         ...shareAll({ 
